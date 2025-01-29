@@ -1,9 +1,8 @@
-'use client'
-import { addToCart } from '@/actions/action';
+
 import CustomerTestimonials from '@/components/AllReviews';
 import { BreadcrumbCollapsed } from '@/components/Breadcrupm';
+import Detailpage from '@/components/detailpage';
 import T_shirts from '@/components/products';
-import { Button } from '@/components/ui/button';
 import { client } from '@/sanity/lib/client';
 import { Product } from '@/types/products';
 import { Check, Minus, Plus } from 'lucide-react';
@@ -11,7 +10,7 @@ import { Check, Minus, Plus } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaStar } from 'react-icons/fa';
-import Swal from 'sweetalert2';
+
 
 const star = [
   <FaStar key={1} />,
@@ -42,20 +41,7 @@ export default async function ProductDetail({ params }: { params: { id: string }
   }
 
 
-  
-const handleAddToCart =  (product: Product) => (e: React.MouseEvent) => {
-  e.preventDefault();
-  Swal.fire({
-    position: 'top-end',
-    icon: 'success',
-    title: `${product.name} added to cart`,
-    showConfirmButton: false,
-    timer: 1500
-    
-  })
-  addToCart(product)
 
-}
   return (
     <div key={product._id}>
     <BreadcrumbCollapsed />
@@ -151,7 +137,9 @@ const handleAddToCart =  (product: Product) => (e: React.MouseEvent) => {
             1
             <Plus />
           </div>
-          <Link href={`/cart/${product._id}`} key={product._id}>   <Button className="bg-black text-white w-40  md:w-[300px] rounded-lg " onClick={handleAddToCart(product)}>Add to Cart</Button></Link>
+          <Link href={`/cart/${product._id}`} key={product._id}> 
+            <Detailpage product={product} />  
+          </Link>
         </div>
       </div>
     </div>
