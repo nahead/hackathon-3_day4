@@ -32,10 +32,10 @@ export default function Hero(){
               <Image src={"/profile.png"}
                className="w-[500px] h-[600px]"
               width={700} height={700} alt="hero-image"></Image> 
-               <Image src={"/images/star.png"}
+               <Image src={"/star.png"}
                className="w-[70px] sm:w-[100px] absolute top-[60px] right-6 "
               width={700} height={700} alt="hero-image"></Image> 
-               <Image src={"/images/star.png"}
+               <Image src={"/star.png"}
                className="w-[50px] sm:w-[70px]  absolute top-[230px] left-[0px] sm:left-[-30px] "
               width={700} height={700} alt="hero-image"></Image> 
               </div>

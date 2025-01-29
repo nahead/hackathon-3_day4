@@ -16,21 +16,21 @@ export default function Dress(){
                <div className=' flex flex-col lg:flex-row lg:flex-wrap justify-center items-center  mt-7   '>
                      <div className='relative bg-white w-[90%] lg:w-[350px] h-[250px] mt-4 md:mt-0 rounded-[20px]'>
                         <h1 className='absolute left-10 top-8 text-xl font-bold'>Casual</h1>
-                        <Image src={"/images/dress1.png"} className='w-full h-full rounded-[20px]' width={500}  height={500} alt='images'></Image>
+                        <Image src={"/dress1.png"} className='w-full h-full rounded-[20px]' width={500}  height={500} alt='images'></Image>
                      </div>
                      <div className='relative bg-white w-[90%] lg:w-[550px] h-[250px] mt-4 md:mt-0 md:ml-4 rounded-[20px]'>
                         <h1 className='absolute left-10 top-8 text-xl font-bold'>Formal</h1>
-                        <Image src={"/images/dress2.png"} className='w-full h-full rounded-[20px]' width={500}  height={500} alt='images'></Image>
+                        <Image src={"/dress2.png"} className='w-full h-full rounded-[20px]' width={500}  height={500} alt='image'></Image>
 
                      </div>
                      <div className='relative bg-white w-[90%] lg:w-[550px] h-[250px] mt-2 rounded-[20px]'>
                         <h1 className='absolute left-10 top-8 text-xl font-bold'>Party</h1>
-                        <Image src={"/images/dress3.png"} className='w-full h-full rounded-[20px]' width={500}  height={500} alt='images'></Image>
+                        <Image src={"/dress3.png"} className='w-full h-full rounded-[20px]' width={500}  height={500} alt='images'></Image>
 
                      </div>
                      <div className='relative bg-white w-[90%] lg:w-[350px] h-[250px]  mt-2 md:ml-4 rounded-[20px]'>
                         <h1 className='absolute left-10 top-8 text-xl font-bold'>Gym</h1>
-                        <Image src={"/images/dress5.png"} className='w-full h-full rounded-[20px]' width={500}  height={500} alt='images'></Image>
+                        <Image src={"/dress5.png"} className='w-full h-full rounded-[20px]' width={500}  height={500} alt='images'></Image>
 
                      </div>
                      
