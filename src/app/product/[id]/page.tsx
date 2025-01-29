@@ -1,4 +1,4 @@
-
+'use client'
 import { addToCart } from '@/actions/action';
 import CustomerTestimonials from '@/components/AllReviews';
 import { BreadcrumbCollapsed } from '@/components/Breadcrupm';
@@ -43,7 +43,7 @@ export default async function ProductDetail({ params }: { params: { id: string }
 
 
   
-const handleAddToCart =  (e: React.MouseEvent, product:Product) => {
+const handleAddToCart =  (product: Product) => (e: React.MouseEvent) => {
   e.preventDefault();
   Swal.fire({
     position: 'top-end',
@@ -151,7 +151,7 @@ const handleAddToCart =  (e: React.MouseEvent, product:Product) => {
             1
             <Plus />
           </div>
-          <Link href={`/cart/${product._id}`} key={product._id}>   <Button className="bg-black text-white w-40  md:w-[300px] rounded-lg " onClick={(e,)=> handleAddToCart(e, product)}>Add to Cart</Button></Link>
+          <Link href={`/cart/${product._id}`} key={product._id}>   <Button className="bg-black text-white w-40  md:w-[300px] rounded-lg " onClick={handleAddToCart(product)}>Add to Cart</Button></Link>
         </div>
       </div>
     </div>
