@@ -8,13 +8,14 @@ import { SheetSide } from "./Humburgur";
 import { NavigationMenuDemo } from "./navigationMenu";
 import { useState, useEffect } from "react";
 import { client } from "@/sanity/lib/client";
+import { Product } from "@/types/products";
 
 export default function Header() {
 
  
   const [searchQuery, setSearchQuery] = useState("");
-  const [products, setProducts] = useState<any[]>([]);
-  const [filteredProducts, setFilterdProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilterdProducts] = useState<Product[]>([]);
 
   // Fetch products from Sanity
   useEffect(() => {
@@ -44,7 +45,7 @@ export default function Header() {
     setSearchQuery(query);
 
     // Filter products based on search query
-    const filtered = products.filter((product) =>
+    const filtered = products.filter((product:Product) =>
       product.name.toLowerCase().includes(query)
     );
     setFilterdProducts(filtered);
@@ -89,7 +90,7 @@ export default function Header() {
       {searchQuery && filteredProducts.length > 0 && (
         <div className="absolute bg-white w-full border border-gray-300 rounded-md shadow-lg mt-2 z-10">
           <ul>
-            {filteredProducts.map((product: any) => (
+            {filteredProducts.map((product) => (
               <li
                 key={product._id}
                 className="px-4 py-2 text-black hover:bg-gray-200 cursor-pointer"

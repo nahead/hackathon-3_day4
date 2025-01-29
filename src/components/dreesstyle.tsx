@@ -4,8 +4,7 @@ import {
     AccordionItem,
     AccordionTrigger,
   } from "@/components/ui/accordion"
-import { Filter } from "lucide-react"
-import { MdArrowDropDown, MdArrowDropDownCircle } from "react-icons/md"
+
 import { RiArrowDropDownLine } from "react-icons/ri"
 import { Button } from "./ui/button"
   

@@ -11,7 +11,7 @@ import { Product } from "@/types/products";
 
 
 
-let star = [
+const star = [
   <FaStar key={1} />,
   <FaStar key={2} />,
   <FaStar key={3} />,
@@ -52,7 +52,7 @@ export default function Products() {
             <h1 className="text-3xl md:text-4xl font-bold text-center">NEW ARRIVALS</h1>
             <div className="relative  mt-10 overflow-x-auto flex space-x-5 px-8 ">
                 {products.map((data) => {
-                    return (<div>
+                    return (
            <Link href={`/product/${data._id}`} key={data._id}>
                             
                                 <div className="w-[200px] md:w-[283px] h-[200px] md:h-[290px] bg-[#F0EEED] rounded-[20px]">
@@ -80,7 +80,7 @@ export default function Products() {
             
                             </Link>
                         
-                        </div>
+               
                           
                         
                     );

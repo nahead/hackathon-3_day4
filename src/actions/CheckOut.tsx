@@ -1,4 +1,4 @@
-'use client'
+
 import { client } from "@/sanity/lib/client";
 import { Customer } from "@/types/customer.js";
 import { Product } from "@/types/products.js";

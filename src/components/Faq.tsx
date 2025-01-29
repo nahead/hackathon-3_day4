@@ -20,7 +20,7 @@ const FAQHelpCenter = () => {
   const [search, setSearch] = useState('');
   const [filteredFAQs, setFilteredFAQs] = useState(faqData);
 
-  const handleSearch = (e:any) => {
+  const handleSearch = (e: { target: { value: string; }; }) => {
     const value = e.target.value.toLowerCase();
     setSearch(value);
     setFilteredFAQs(
@@ -87,7 +87,7 @@ const FAQHelpCenter = () => {
             <textarea
               id="message"
               name="message"
-              rows='3'
+             
               required
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             ></textarea>

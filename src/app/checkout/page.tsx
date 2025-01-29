@@ -155,7 +155,7 @@ function CheckOut() {
                   <input
                     id={field}
                     type="text"
-                    value={(formValues as any)[field]}
+                    value={formValues[field as keyof typeof formValues]}
                     onChange={handleInput}
                     className={`w-full px-4 py-2 rounded-lg border ${
                       formErrors[field as keyof typeof formErrors]

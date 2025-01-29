@@ -12,9 +12,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { RiArrowDropDownLine } from "react-icons/ri"
 
 const components: { title: string; href: string; description: string }[] = [
  

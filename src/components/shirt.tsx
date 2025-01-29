@@ -18,7 +18,7 @@ interface Iproducts {
     imageUrl: string;
   }
 // Adding key prop in star array
-let star = [
+const star = [
     <FaStar key={1} />,
     <FaStar key={2} />,
     <FaStar key={3} />,
@@ -59,8 +59,8 @@ export default function Shirt(){
                 {
                     products.map((data)=>{
                         return(
-                              <div className={` ${data._id === 3 ? 'hidden' : 'hiddin'} md:block mb-6 mt-1`} >
-                                 <Link href={`/product/${data._id}`} key={data._id}>
+                              <div className={` ${data._id === 3 ? 'hidden' : 'hiddin'} md:block mb-6 mt-1`} key={data._id} >
+                                 <Link href={`/product/${data._id}`} >
                                  <div className="w-[160px] md:w-[240px] md:h-[240x] lg:w-[290px] h-[160px] lg:h-[290px] bg-[#F0EEED] rounded-[20px]" key={data._id}>
                                   <Image src={data.imageUrl} alt={data.name}
                                   className="w-full h-full rounded-[20px]"

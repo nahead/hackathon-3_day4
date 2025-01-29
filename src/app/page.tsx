@@ -4,7 +4,7 @@
 import CustomerCarousel from "@/components/Customer";
 import Hero from "@/components/Herro";
 import FontShowcase from "@/components/Retangle";
-import { client } from "@/sanity/lib/client";
+
 import Dress from "./brands/page";
 import Products from "./product/page";
 import Topsell from "./product/sell";

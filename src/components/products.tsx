@@ -16,7 +16,7 @@ name:string,
 
 
 // Adding key prop in star array
-let star = [
+const star = [
     <FaStar key={1} />,
     <FaStar key={2} />,
     <FaStar key={3} />,

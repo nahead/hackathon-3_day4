@@ -1,4 +1,4 @@
-'use client'
+
 import { addToCart } from '@/actions/action';
 import CustomerTestimonials from '@/components/AllReviews';
 import { BreadcrumbCollapsed } from '@/components/Breadcrupm';
@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { FaStar } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 
-let star = [
+const star = [
   <FaStar key={1} />,
   <FaStar key={2} />,
   <FaStar key={3} />,
