@@ -1,10 +1,10 @@
 // Import Google Fonts
-import { Playfair_Display, Cinzel, Bodoni_Moda, Prata, Montserrat } from "next/font/google";
+import { Playfair_Display, Cinzel,  Prata, Montserrat, Bodoni_Moda } from "next/font/google";
 
 // Load Fonts
 const playfair = Playfair_Display({ subsets: ["latin"] });
 const cinzel = Cinzel({ subsets: ["latin"] });
-const bodoni = Bodoni_Moda({ subsets: ["latin"] });
+const bodoni = Bodoni_Moda({subsets:['latin']})
 const prata = Prata({
      subsets: ["latin"] ,
      weight: "400"
