@@ -1,7 +1,38 @@
-import Image from "next/image";
 
-export default function Home() {
+
+
+import CustomerCarousel from "@/components/Customer";
+import Hero from "@/components/Herro";
+import FontShowcase from "@/components/Retangle";
+import { client } from "@/sanity/lib/client";
+import Dress from "./brands/page";
+import Products from "./product/page";
+import Topsell from "./product/sell";
+
+
+
+
+
+export default async function Home() {
+
   return (
-  <div>day4</div>
+ <div>
+ 
+  <Hero/>
+   
+    
+    <FontShowcase/>
+
+    <Products/>
+   <Topsell/>
+  
+    
+     <Dress/>
+     <CustomerCarousel/> 
+
+
+
+ </div>
   );
 }
+
