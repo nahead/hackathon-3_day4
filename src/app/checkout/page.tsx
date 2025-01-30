@@ -1,5 +1,6 @@
 'use client';
 import { getCartItems } from '@/actions/action';
+import { client } from '@/sanity/lib/client';
 import { Product } from '@/types/products';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,20 +10,21 @@ function CheckOut() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [discount, setDiscount] = useState<number>(0);
   const [formValues, setFormValues] = useState({
-    name: '',
+   
+    firstname: '',
+    lastname: '',
     email: '',
     address: '',
     phone: '',
-    payment: '',
     zipCode: '',
     city: '',
   });
   const [formErrors, setFormErrors] = useState({
-    name: false,
+    firstname: false,
+    lastname:false,
     email: false,
     address: false,
     phone: false,
-    payment: false,
     zipCode: false,
     city: false,
   });
@@ -46,11 +48,12 @@ function CheckOut() {
 
   const validateForm = () => {
     const error = {
-      name: !formValues.name,
+      firstname: !formValues.firstname,
+      lastname:!formValues.lastname,
+     
       email: !formValues.email,
       address: !formValues.address,
       phone: !formValues.phone,
-      payment: !formValues.payment,
       zipCode: !formValues.zipCode,
       city: !formValues.city,
     };
@@ -58,12 +61,42 @@ function CheckOut() {
     return Object.values(error).every((err) => !err);
   };
 
-  const handleCheckout = () => {
-    if (validateForm()) {
-      alert('Order placed successfully!');
-      localStorage.removeItem('discount');
+  
+  const handlePlaceOrder= async ()=>{
+    
+    
+    alert('Order placed successfully!');
+    const orderData={
+      _type:'order',
+      firstname: formValues.firstname,
+      lastname: formValues.lastname,
+      email: formValues.email,
+      address: formValues.address,
+      phone: formValues.phone,
+      zipCode: formValues.zipCode,
+      city: formValues.city,
+      cartItems: cartItems.map((item) => ({
+        _type:'reference',
+        ref: item._id,
+        
+      })),
+      totalPrice: subtotal - discount,
+      orderDate: new Date().toISOString
     }
-  };
+   
+    try{
+      await client.create(orderData)
+      localStorage.removeItem('discount')
+     
+     
+       } catch (error) {
+    if (error instanceof Error && error.message.includes("Insufficient permissions")) {
+      console.error("Permission issue: ", error);
+    } else {
+      console.error("Unexpected error: ", error);
+    }}
+  }
+  
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -170,7 +203,7 @@ function CheckOut() {
               ))}
               <button
                 type="button"
-                onClick={handleCheckout}
+                onClick={handlePlaceOrder}
                 className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
               >
                 Place Order
@@ -183,4 +216,4 @@ function CheckOut() {
   );
 }
 
-export default CheckOut;
+export default CheckOut
