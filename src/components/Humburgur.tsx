@@ -22,7 +22,7 @@ type SheetSide = (typeof SHEET_SIDES)[number]
 
 export function SheetSide() {
   return (
-    <div className=" gap-2">
+    <div className=" gap-2 ">
       {SHEET_SIDES.map((side) => (
         <Sheet key={side} >
           <SheetTrigger asChild className="sm:hidden">
@@ -38,9 +38,9 @@ export function SheetSide() {
                     
                 
                     <Link href={``}><NavigationMenuDemo/></Link>
-                    <Link className="ml-3" href={`#sale`}>On Sale</Link>
-                    <Link className="ml-3" href={"#arival"}>New Arrivals</Link>
-                    <Link className="ml-3" href={"#brands"}>Brands</Link>
+                    <Link className="ml-3" href={`/casual`}>On Sale</Link>
+                    <Link className="ml-3" href={"/product"}>New Arrivals</Link>
+                    <Link className="ml-3" href={"/brands"}>Brands</Link>
 
                 </li>
             </ul>

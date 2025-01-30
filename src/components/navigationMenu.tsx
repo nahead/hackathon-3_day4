@@ -45,11 +45,11 @@ export function NavigationMenuDemo() {
     <NavigationMenu>
       <NavigationMenuList>         
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="text-md ">
-            Shop 
+          <NavigationMenuTrigger className="text-md">
+            Shop
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid  sm:w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+            <ul className="grid  sm:w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-white ">
               {components.map((component,index) => (
               <Link href={component.href} key={index}>
                    <ListItem
