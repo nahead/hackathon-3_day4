@@ -67,7 +67,25 @@ export default{
         },
         initialValue:'pending'
       }
-
+, {
+  name:'paymentMethod',
+  title:'Payment Method',
+  type:'string',
+  options:{
+      list:[
+          {title:'Credit Card', value:'creditCard'},
+          {title:'PayPal', value:'paypal'},
+          {title:'Bitcoin', value:'bitcoin'}
+      ],
+      layout:'radio'
+  },
+  initialValue:'creditCard'
+},
+{
+  name:'orderDate',
+  title:'Order Date',
+  type:'date'
+}
 
     ]
 }

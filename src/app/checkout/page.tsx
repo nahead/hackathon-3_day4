@@ -8,9 +8,8 @@ import React, { useEffect, useState } from 'react';
 
 function CheckOut() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
-  const [discount, setDiscount] = useState<number>( 0);
+  const [discount, setDiscount] = useState<number>(0);
   const [formValues, setFormValues] = useState({
-   
     firstname: '',
     lastname: '',
     email: '',
@@ -18,10 +17,11 @@ function CheckOut() {
     phone: '',
     zipCode: '',
     city: '',
+    paymentMethod: 'creditCard'
   });
   const [formErrors, setFormErrors] = useState({
     firstname: false,
-    lastname:false,
+    lastname: false,
     email: false,
     address: false,
     phone: false,
@@ -29,47 +29,51 @@ function CheckOut() {
     city: false,
   });
 
- 
+  useEffect(() => {
+    setCartItems(getCartItems());
+    const appliedDiscount = localStorage.getItem('discount');
+    if (appliedDiscount) {
+      setDiscount(Number(appliedDiscount));
+    }
+  }, []);
+
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-  useEffect(() => {
-    setCartItems(getCartItems());
-    const appliedDiscount = localStorage.getItem('discount')
-     
-    if (appliedDiscount) {
-      setDiscount(Number(appliedDiscount ));
-    }
-  }, []);
-
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({ ...formValues, [e.target.id]: e.target.value });
+    setFormErrors({ ...formErrors, [e.target.id]: false }); // Clear error on user input
+  };
+
+  const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormValues({ ...formValues, paymentMethod: e.target.value });
   };
 
   const validateForm = () => {
     const error = {
-      firstname: !formValues.firstname,
-      lastname:!formValues.lastname,
-     
-      email: !formValues.email,
-      address: !formValues.address,
-      phone: !formValues.phone,
-      zipCode: !formValues.zipCode,
-      city: !formValues.city,
+      firstname: !formValues.firstname.trim(),
+      lastname: !formValues.lastname.trim(),
+      email: !formValues.email.trim() || !/\S+@\S+\.\S+/.test(formValues.email),
+      address: !formValues.address.trim(),
+      phone: !formValues.phone.trim() || !/^\d{11}$/.test(formValues.phone),
+      zipCode: !formValues.zipCode.trim(),
+      city: !formValues.city.trim(),
     };
     setFormErrors(error);
     return Object.values(error).every((err) => !err);
   };
 
-  
-  const handlePlaceOrder= async ()=>{
-    
-    
+  const handlePlaceOrder = async () => {
+    if (!validateForm()) {
+      alert('Please fill all required fields correctly.');
+      return;
+    }
+
     alert('Order placed successfully!');
-    const orderData={
-      _type:'order',
+    const orderData = {
+      _type: 'order',
       firstname: formValues.firstname,
       lastname: formValues.lastname,
       email: formValues.email,
@@ -77,28 +81,30 @@ function CheckOut() {
       phone: formValues.phone,
       zipCode: formValues.zipCode,
       city: formValues.city,
+      paymentMethod: formValues.paymentMethod,
+
       cartItems: cartItems.map((item) => ({
-        _type:'reference',
-        ref: item._id,
-        
+        _type: 'reference',
+        _ref: item._id,
       })),
       totalPrice: subtotal - discount,
-      orderDate: new Date().toISOString
+      orderDate: new Date().toISOString(),
+    };
+
+    try {
+      await client.create(orderData);
+      localStorage.removeItem('discount');
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message.includes('Insufficient permissions')
+      ) {
+        console.error('Permission issue: ', error);
+      } else {
+        console.error('Unexpected error: ', error);
+      }
     }
-   
-    try{
-      await client.create(orderData)
-      localStorage.removeItem('discount')
-     
-     
-       } catch (error) {
-    if (error instanceof Error && error.message.includes("Insufficient permissions")) {
-      console.error("Permission issue: ", error);
-    } else {
-      console.error("Unexpected error: ", error);
-    }}
-  }
-  
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -125,7 +131,9 @@ function CheckOut() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Order Summary */}
           <div className="order bg-white shadow-md rounded-lg p-6">
-            <h2 className="text-2xl font-bold mb-4 border-b pb-2">Order Summary</h2>
+            <h2 className="text-2xl font-bold mb-4 border-b pb-2">
+              Order Summary
+            </h2>
 
             {cartItems.length > 0 ? (
               cartItems.map((item) => (
@@ -146,8 +154,12 @@ function CheckOut() {
 
                   {/* Item Details */}
                   <div className="flex-1 ml-4">
-                    <h3 className="text-lg font-medium text-gray-800">{item.name}</h3>
-                    <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+                    <h3 className="text-lg font-medium text-gray-800">
+                      {item.name}
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      Quantity: {item.quantity}
+                    </p>
                     <p className="text-sm font-medium text-gray-700">
                       ${item.price * item.quantity}
                     </p>
@@ -155,7 +167,9 @@ function CheckOut() {
                 </div>
               ))
             ) : (
-              <p className="text-center text-gray-500 mt-4">Your cart is empty!</p>
+              <p className="text-center text-gray-500 mt-4">
+                Your cart is empty!
+              </p>
             )}
 
             {/* Order Totals */}
@@ -177,32 +191,78 @@ function CheckOut() {
 
           {/* Checkout Form */}
           <div className="bg-white shadow-md rounded-lg p-6">
-            <h2 className="text-2xl font-bold mb-4 border-b pb-2">Shipping Details</h2>
+            <h2 className="text-2xl font-bold mb-4 border-b pb-2">
+              Shipping Details
+            </h2>
             <form className="space-y-4">
               {Object.keys(formValues).map((field) => (
-                <div key={field}>
-                  <label
-                    htmlFor={field}
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    {field.charAt(0).toUpperCase() + field.slice(1)}
-                  </label>
-                  <input
-                    id={field}
-                    type="text"
-                    value={formValues[field as keyof typeof formValues]}
-                    onChange={handleInput}
-                    className={`w-full px-4 py-2 rounded-lg border ${
-                      formErrors[field as keyof typeof formErrors]
-                        ? 'border-red-500'
-                        : 'border-gray-300'
-                    } focus:ring-blue-500 focus:border-blue-500`}
-                  />
-                  {formErrors[field as keyof typeof formErrors] && (
-                    <p className="text-red-500 text-sm">This field is required</p>
-                  )}
-                </div>
+                field !== 'paymentMethod' && (
+                  <div key={field}>
+                    <label
+                      htmlFor={field}
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      {field.charAt(0).toUpperCase() + field.slice(1)}
+                    </label>
+                    <input
+                      id={field}
+                      type="text"
+                      value={formValues[field as keyof typeof formValues]}
+                      onChange={handleInput}
+                      className={`w-full px-4 py-2 rounded-lg border ${
+                        formErrors[field as keyof typeof formErrors]
+                          ? 'border-red-500'
+                          : 'border-gray-300'
+                      } focus:ring-blue-500 focus:border-blue-500`}
+                    />
+                    {formErrors[field as keyof typeof formErrors] && (
+                      <p className="text-red-500 text-sm">
+                        This field is required or invalid
+                      </p>
+                    )}
+                  </div>
+                )
               ))}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Payment Method
+                </label>
+                <div className="flex space-x-4">
+                  <div>
+                    <input
+                      type="radio"
+                      id="creditCard"
+                      name="paymentMethod"
+                      value="creditCard"
+                      checked={formValues.paymentMethod === 'creditCard'}
+                      onChange={handlePaymentMethodChange}
+                    />
+                    <label htmlFor="creditCard" className="ml-2">Credit Card</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="paypal"
+                      name="paymentMethod"
+                      value="paypal"
+                      checked={formValues.paymentMethod === 'paypal'}
+                      onChange={handlePaymentMethodChange}
+                    />
+                    <label htmlFor="paypal" className="ml-2">PayPal</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="bitcoin"
+                      name="paymentMethod"
+                      value="bitcoin"
+                      checked={formValues.paymentMethod === 'bitcoin'}
+                      onChange={handlePaymentMethodChange}
+                    />
+                    <label htmlFor="bitcoin" className="ml-2">Bitcoin</label>
+                  </div>
+                </div>
+              </div>
               <button
                 type="button"
                 onClick={handlePlaceOrder}
@@ -218,4 +278,4 @@ function CheckOut() {
   );
 }
 
-export default CheckOut
+export default CheckOut;
