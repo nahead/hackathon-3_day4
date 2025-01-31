@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 function CheckOut() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
-  const [discount, setDiscount] = useState<number>(0);
+  const [discount, setDiscount] = useState<number>( 0);
   const [formValues, setFormValues] = useState({
    
     firstname: '',
@@ -29,18 +29,20 @@ function CheckOut() {
     city: false,
   });
 
-  useEffect(() => {
-    setCartItems(getCartItems());
-    const appliedDiscount = localStorage.getItem('discount');
-    if (appliedDiscount) {
-      setDiscount(Number(appliedDiscount));
-    }
-  }, []);
-
+ 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+  useEffect(() => {
+    setCartItems(getCartItems());
+    const appliedDiscount = localStorage.getItem('discount')
+     
+    if (appliedDiscount) {
+      setDiscount(Number(appliedDiscount ));
+    }
+  }, []);
+
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({ ...formValues, [e.target.id]: e.target.value });
