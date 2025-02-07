@@ -5,8 +5,12 @@ import { Product } from '@/types/products';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+
+import { useRouter } from "next/navigation";
 
 function CheckOut() {
+  const router = useRouter();
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [discount, setDiscount] = useState<number>(0);
   const [formValues, setFormValues] = useState({
@@ -67,11 +71,12 @@ function CheckOut() {
 
   const handlePlaceOrder = async () => {
     if (!validateForm()) {
-      alert('Please fill all required fields correctly.');
+   
+      
       return;
     }
 
-    alert('Order placed successfully!');
+  
     const orderData = {
       _type: 'order',
       firstname: formValues.firstname,
@@ -94,6 +99,25 @@ function CheckOut() {
     try {
       await client.create(orderData);
       localStorage.removeItem('discount');
+     
+   
+      const confirmed = await Swal.fire({
+        title: "Processing your order",
+        text: "Please wait a moment.",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Proceed",
+      });
+  
+      if (confirmed.isConfirmed) {
+        Swal.fire("Success!", "Your order has been successfully processed!", "success");
+        setCartItems([]);
+       
+        router.push("/");
+      }
+
     } catch (error) {
       if (
         error instanceof Error &&

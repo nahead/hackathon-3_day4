@@ -1,6 +1,6 @@
 import { defineType } from "sanity"
 
-export default defineType({
+export default defineType ({
     name: 'products',
     title: 'Products',
     type: 'document',

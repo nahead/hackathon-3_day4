@@ -29,9 +29,11 @@
     "react-dom": "^18",
     "react-icons": "^5.4.0",
     "sanity": "^3.72.1",
+    "shadcn-ui": "^0.9.4",
     "styled-components": "^6.1.14",
     "sweetalert2": "^11.15.10",
-    "tailwind-merge": "^2.6.0"
+    "tailwind-merge": "^2.6.0",
+    "tailwind-variants": "^0.3.1"
   },
   "devDependencies": {
     "@types/node": "^20",
