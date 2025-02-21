@@ -83,7 +83,7 @@ export default function Header() {
         </Link>
       </ul>
 
-      {/* Search Bar */}
+      {/* Search Bar   */}
       <div className="flex items-center w-full md:w-auto ml-4 md:ml-8">
         <div className="flex items-center bg-gray-100 w-full md:w-[500px] h-[40px] pl-2 rounded-full shadow-sm">
           <IoIosSearch className="text-xl text-gray-500" />
@@ -96,7 +96,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Icons Section */}
+      {/* Icons  Section */}
       <div className="flex space-x-4 items-center">
         <Link href={`/cart`}>
           <IoCartOutline className="text-2xl text-gray-600" />
