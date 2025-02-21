@@ -2,7 +2,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { FaStar } from "react-icons/fa"; // Import FontAwesome icons
 import { FaCircleCheck } from "react-icons/fa6";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 const testimonials = [
   {

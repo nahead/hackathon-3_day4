@@ -3,21 +3,17 @@ import Link from "next/link";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { IoCartOutline } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
-
 import { SheetSide } from "./Humburgur";
-import { NavigationMenuDemo } from "./navigationMenu";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { client } from "@/sanity/lib/client";
 import { Product } from "@/types/products";
 
 export default function Header() {
-
- 
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilterdProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const searchResultsRef = useRef<HTMLDivElement | null>(null);
 
-  // Fetch products from Sanity
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -30,75 +26,104 @@ export default function Header() {
           description,
         }`);
         setProducts(data);
-        setFilterdProducts(data); // Initialize with all products
+        setFilteredProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
-
     fetchProducts();
   }, []);
 
-  // Handle search query change
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
-
-    // Filter products based on search query
-    const filtered = products.filter((product:Product) =>
+    const filtered = products.filter((product: Product) =>
       product.name.toLowerCase().includes(query)
     );
-    setFilterdProducts(filtered);
+    setFilteredProducts(filtered);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchResultsRef.current &&
+        !searchResultsRef.current.contains(event.target as Node)
+      ) {
+        setSearchQuery("");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <header className="w-full border-b bg-white h-[60px] md:h-[90px] flex justify-between pr-2 items-center max-w-screen-2xl mx-auto">
+    <header className="w-full border-b bg-white h-[60px] md:h-[90px] flex justify-between pr-4 items-center max-w-screen-2xl mx-auto relative">
+      {/* Logo */}
       <div className="flex justify-center items-center">
         <SheetSide />
-        {/* Logo */}
-        <h1 className="text-2xl md:text-4xl font-extrabold pl-2">SHOP.CO</h1>
+   <Link href="/">
+   <h1 className="text-2xl md:text-4xl font-extrabold pl-4 text-gray-800">
+          SHOP.CO
+        </h1>
+   </Link>
       </div>
-      {/* Navigation bar */}
-      <ul className="hidden sm:block">
-        <li className="flex space-x-4 ml-4 mt-2 items-center">
-          <Link href={``}><NavigationMenuDemo /></Link>
-          <Link href={`/casual`}>On Sale</Link>
-          <Link href={`/product`}>New Arrivals</Link>
-          <Link href={`/brands`}>Brands</Link>
-        </li>
+
+      {/* Navigation */}
+      <ul className="hidden sm:flex space-x-4 ml-4 items-center">
+        <Link href={`/casual`} className="text-gray-600 hover:text-gray-900">
+          On Sale
+        </Link>
+        <Link href={`/product`} className="text-gray-600 hover:text-gray-900">
+          New Arrivals
+        </Link>
+        <Link href={`/brands`} className="text-gray-600 hover:text-gray-900">
+          Brands
+        </Link>
       </ul>
-      {/* Search bar */}
-      <div className="ml-14 flex justify-center items-center">
-        <div className="flex justify-start items-center lg:bg-[#F0F0F0] lg:w-[500px] h-[40px] pl-2 ml-12 md:ml-0 hover:border-none rounded-full">
-          <IoIosSearch className="text-xl hidden lg:block" />
+
+      {/* Search Bar */}
+      <div className="flex items-center w-full md:w-auto ml-4 md:ml-8">
+        <div className="flex items-center bg-gray-100 w-full md:w-[500px] h-[40px] pl-2 rounded-full shadow-sm">
+          <IoIosSearch className="text-xl text-gray-500" />
           <input
             placeholder="Search for products..."
             onChange={handleSearch}
             value={searchQuery}
-            className="bg-[#F0F0F0] outline-none w-full h-full rounded-full ml-2 hidden lg:block"
+            className="bg-gray-100 outline-none w-full h-full rounded-full ml-2 p-2 text-sm"
           />
         </div>
       </div>
-      {/* Right icons */}
-      <div className="flex space-x-2 sm:space-x-4">
-        <IoIosSearch className="text-xl lg:hidden" />
-        <Link href={`/cart`}><IoCartOutline className="text-2xl" /></Link>
-        <MdOutlineAccountCircle className="text-2xl" />
+
+      {/* Icons Section */}
+      <div className="flex space-x-4 items-center">
+        <Link href={`/cart`}>
+          <IoCartOutline className="text-2xl text-gray-600" />
+        </Link>
+        <Link href={`/login`}>
+          <MdOutlineAccountCircle className="text-2xl text-gray-600" />
+        </Link>
       </div>
 
-      {/* Search results */}
+      {/* Search Results */}
       {searchQuery && filteredProducts.length > 0 && (
-        <div className="absolute bg-white w-full border border-gray-300 rounded-md shadow-lg mt-2 z-10">
+        <div
+          ref={searchResultsRef}
+          className="absolute bg-white w-full max-h-[300px] overflow-y-auto border border-gray-300 rounded-lg shadow-lg mt-2 z-10"
+        >
           <ul>
             {filteredProducts.map((product) => (
-              <li
+              <Link
                 key={product._id}
-                className="px-4 py-2 text-black hover:bg-gray-200 cursor-pointer"
+                href={`/product/${product._id}`}
+                onClick={() => setSearchQuery("")}
               >
-                <Link href={`/product/${product._id}`}>
-                  {product.name}
-                </Link>
-              </li>
+                <li className="px-4 py-3 text-gray-800 hover:bg-gray-100 cursor-pointer flex justify-between items-center">
+                  <span>{product.name}</span>
+                  <span className="text-sm text-gray-500">${product.price}</span>
+                </li>
+              </Link>
             ))}
           </ul>
         </div>

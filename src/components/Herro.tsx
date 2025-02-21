@@ -1,44 +1,63 @@
-
-
 import Image from "next/image";
 
-export default function Hero(){
-    return (
-        <main className="bg-[#F2F0F1] md:h-[600px] md:px-10 sm:pt-4 md:pt-0 flex flex-col md:flex-row justify-between items-start max-w-screen-2xl mx-auto">
-              {/* left */}
-               <div className="  md:pl-0 md:w-[500px] lg:w-[600px] space-y-5  sm:pt-7 mt-10 px-3">
-                <h1 className={`text-4xl md:text-5xl lg:text-7xl font-extrabold`}>FIND CLOTHES THAT MATCHES YOUR STYLE</h1>
-                <p className="text-sm">Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.</p>
-                <button className="w-full sm:w-[140px] text-sm bg-black text-white py-2 px-8 rounded-[20px]" >Shop Now</button>
-                <div className=" flex justify-evenly md:justify-between flex-wrap md:flex-nowrap gap-y-4 mt-4 ml-4 space-x-4">
-                  <div className="border-r pr-2">
-                    <h1 className="text-2xl md:text-5xl  ">700+</h1>
-                    <p className="text-xs md:text-[15px] text-gray-500">International Brands</p>
-                  </div>
-                  <div className="border-r pr-5">
-                    <h1 className="text-2xl md:text-5xl  ">2,000+</h1>
-                    <p className="text-xs md:text-[15px] text-gray-500">High-Quality Products</p>
-                  </div>
-                  <div>
-                    <h1 className="text-2xl md:text-5xl ">30,000+</h1>
-                    <p className="text-xs md:text-[15px] text-gray-500">Happy Customers</p>
-                  </div>
-               </div>
-               </div>
-               {/* mid div */}
-              
-              {/* right */}
-              <div className="relative">
-              <Image src={"/profile.png"}
-               className="w-[500px] h-[600px]"
-              width={700} height={700} alt="hero-image"></Image> 
-               <Image src={"/star.png"}
-               className="w-[70px] sm:w-[100px] absolute top-[60px] right-6 "
-              width={700} height={700} alt="hero-image"></Image> 
-               <Image src={"/star.png"}
-               className="w-[50px] sm:w-[70px]  absolute top-[230px] left-[0px] sm:left-[-30px] "
-              width={700} height={700} alt="hero-image"></Image> 
-              </div>
-        </main>
-    )
+export default function Hero() {
+  return (
+    <main className="bg-[#F2F0F1] px-6 md:px-10 py-10 flex flex-col md:flex-row items-center justify-between max-w-screen-2xl mx-auto">
+      {/* Left Section */}
+      <div className="w-full md:w-[50%] lg:w-[45%] space-y-6 text-center md:text-left">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900">
+          FIND CLOTHES THAT MATCH YOUR STYLE
+        </h1>
+        <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+          Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.
+        </p>
+        <div className="flex justify-center md:justify-start">
+          <button className="bg-black text-white text-sm font-medium py-3 px-6 rounded-full transition-all duration-300 hover:bg-gray-800">
+            Shop Now
+          </button>
+        </div>
+
+        {/* Stats Section */}
+        <div className="flex justify-center md:justify-start flex-wrap md:flex-nowrap gap-6 mt-6">
+          <div className="text-center md:text-left border-r pr-4">
+            <h1 className="text-2xl md:text-4xl font-bold text-gray-900">700+</h1>
+            <p className="text-xs md:text-sm text-gray-600">International Brands</p>
+          </div>
+          <div className="text-center md:text-left border-r pr-4">
+            <h1 className="text-2xl md:text-4xl font-bold text-gray-900">2,000+</h1>
+            <p className="text-xs md:text-sm text-gray-600">High-Quality Products</p>
+          </div>
+          <div className="text-center">
+            <h1 className="text-2xl md:text-4xl font-bold text-gray-900">30,000+</h1>
+            <p className="text-xs md:text-sm text-gray-600">Happy Customers</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Section - Image */}
+      <div className="relative w-full md:w-[50%] flex justify-center">
+        {/* Transparent Background Image */}
+        <Image 
+          src="/profile.png"
+          className="w-[320px] sm:w-[400px] md:w-[500px] lg:w-[550px] h-auto rounded-xl object-contain drop-shadow-lg"
+          width={550} height={650}
+          alt="Hero Image"
+        />
+        
+        {/* Floating Decorative Stars */}
+        <Image 
+          src="/star.png"
+          className="w-[50px] sm:w-[70px] absolute top-[20px] right-4 sm:right-10 animate-spin"
+          width={70} height={70}
+          alt="Star Decoration"
+        />
+        <Image 
+          src="/star.png"
+          className="w-[40px] sm:w-[60px] absolute top-[200px] left-2 sm:left-[-20px] animate-spin "
+          width={60} height={60}
+          alt="Star Decoration"
+        />
+      </div>
+    </main>
+  );
 }

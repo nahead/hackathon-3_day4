@@ -1,19 +1,21 @@
 import { Product } from "@/types/products"
 
-export const addToCart = (product:Product) =>{
-    const cart : Product[] = JSON.parse(localStorage.getItem("cart")||"[]")
+export function addToCart(product: Product, quantity: number) {
+    const cart = getCartItems() || [];
+    const existingItem = cart.find((item) => item._id === product._id && item.selectedColor === product.selectedColor && item.selectedSize === product.selectedSize);
+  
+    if (existingItem) {
+      if (existingItem.quantity != null) {
+        existingItem.quantity += quantity;
+      }
+    } else {
+      cart.push({ ...product, quantity });
+    }
+  
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+  
 
-    const existingProductIndex = cart.findIndex(item => item._id === product._id)
-
-    if(existingProductIndex > -1){
-        cart[existingProductIndex].quantity +=1
-    }else{
-        cart.push({
-            ...product , quantity: 1
-        })
-    localStorage.setItem("cart",JSON.stringify(cart))
-}
-}
 
 export const removeFromCart = (productId:string) =>{
     let cart : Product[] = JSON.parse(localStorage.getItem("cart")||"[]")

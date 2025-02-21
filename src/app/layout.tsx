@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import AnnouncementBar from "@/components/AnnouncementBar";
+import AnnouncementBar from "@/components/(a)/AnnouncementBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import {ClerkProvider} from "@clerk/nextjs";
 
 
 
@@ -20,6 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ClerkProvider>
     <html lang="en">
 
       <body className={inter.className}>
@@ -32,5 +34,6 @@ export default function RootLayout({
      
         <Footer/></body>
     </html>
+    </ClerkProvider>
   );
 }

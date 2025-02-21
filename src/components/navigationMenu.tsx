@@ -2,9 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-
 import { cn } from "@/lib/utils"
-// import { Icons } from "@/components/icons"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,56 +12,29 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 
-const components: { title: string; href: string; description: string }[] = [
- 
-  {
-    title: "Men's clothes",
-    href: "/casual",
-    description:
-      "In attractive and spectacular colors and designs.",
-  },
-  {
-    title: "Women's clothes",
-    href: "/casual",
-    description: "Ladies, your style and tastes are important to us",
-  },
-  {
-    title: "Kids clothes",
-    href: "/casual",
-    description:
-      "For all ages, with happy and beautiful colors",
-  },
-  {
-    title: "Bags and Shoes",
-    href: "/casual",
-    description:"Suitable for men, women and all tastes and styles",
-  },
+const categories = [
+  { title: "Men's Clothes", href: "/men", description: "Attractive and spectacular colors and designs." },
+  { title: "Women's Clothes", href: "/women", description: "Ladies, your style and taste matter to us." },
+  { title: "Kids' Clothes", href: "/kids", description: "Happy and beautiful colors for all ages." },
+  { title: "Bags & Shoes", href: "/accessories", description: "Stylish options for men and women." },
 ]
 
 export function NavigationMenuDemo() {
   return (
     <NavigationMenu>
-      <NavigationMenuList>         
+      <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="text-md">
-            Shop
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid  sm:w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-white ">
-              {components.map((component,index) => (
-              <Link href={component.href} key={index}>
-                   <ListItem
-                  key={component.title}
-                  title={component.title}
-                >
-                  {component.description}
-                </ListItem>
-              </Link>
+          <NavigationMenuTrigger className="text-lg font-medium">Shop</NavigationMenuTrigger>
+          <NavigationMenuContent className="bg-white shadow-lg rounded-lg">
+            <ul className="grid gap-3 p-4 sm:w-[400px] md:w-[500px] lg:w-[600px] md:grid-cols-2">
+              {categories.map((category, index) => (
+                <Link href={category.href} key={index}>
+                  <ListItem title={category.title}>{category.description}</ListItem>
+                </Link>
               ))}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        
       </NavigationMenuList>
     </NavigationMenu>
   )
@@ -79,15 +50,13 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 rounded-md p-3 transition-all hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900",
             className
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
+          <div className="text-base font-semibold">{title}</div>
+          <p className="text-sm text-gray-600">{children}</p>
         </a>
       </NavigationMenuLink>
     </li>

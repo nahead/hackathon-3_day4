@@ -1,14 +1,19 @@
-export type Product = {
-    discountPercent: number;
-    isNew: boolean; // Assuming it indicates if the product is new
-    quantity: number;
-    _id: string;
-    name: string;
-    description: string;
-    price: number;
-    imageUrl: string;
-    rating: number;
-    size: string;
-    colors: string;
-  };
-  
+export interface Product {
+  image: string;
+  stock: number;
+  images: string[];
+  _id: string;
+  name: string;
+  imageUrl: string;
+  colors: string[];
+  price: number;
+  description: string;
+  category: string;
+  discountPercent: number;
+  isNew: boolean;
+  sizes: string[];
+  selectedColor?: string;
+  selectedSize?: string;
+  quantity?: number | null;
+  selectedQuantity?: number;
+}

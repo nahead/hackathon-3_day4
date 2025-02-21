@@ -1,88 +1,85 @@
-'use client'
+"use client";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 
-interface Iproducts{
-name:string,
-    price:string,
-    _id:number
-    rating?:string,
-    old_price?:string
-    imageUrl:string
+interface Iproducts {
+  name: string;
+  price: string;
+  _id: number;
+  rating?: string;
+  old_price?: string;
+  imageUrl: string;
 }
 
+export default function T_shirts() {
+  const [products, setProducts] = useState<Iproducts[]>([]);
 
-// Adding key prop in star array
-const star = [
-    <FaStar key={1} />,
-    <FaStar key={2} />,
-    <FaStar key={3} />,
-    <FaStar key={4} />,
-    <FaStar key={5} />,
-  ];
-  
+  useEffect(() => {
+    const fetchPro = async () => {
+      const query = `
+        *[_type=="products"][6..9] {
+          _id,
+          name,
+          description,
+          price,
+          old_price,
+          "imageUrl": image.asset->url
+        }
+      `;
+      try {
+        const fetchedPro = await client.fetch(query);
+        setProducts(fetchedPro);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchPro();
+  }, []);
 
-export default function T_shirts(){
-     const [products, setProducts] = useState<Iproducts[]>([]);
-    
-      useEffect(() => {
-        const fetchPro = async () => {
-          const query = `
-            *[_type=="products"][6..9] {
-              _id,
-              name,
-              description,
-              price,
-              "imageUrl": image.asset->url
-            }
-          `;
-          try {
-            const fetchedPro = await client.fetch(query);
-            setProducts(fetchedPro);
-          } catch (error) {
-            console.error("Error fetching products:", error);
-          }
-        };
-        fetchPro();
-      }, []);
-    
-    
-    return(  
-        <div className="w-full h-full md:h-[500px] mt-10 max-w-screen-2xl  mx-auto">
-            <h1 className="text-3xl md:text-4xl font-bold text-center">You might also like</h1>
-            <div className="grid grid-cols-2 md:grid-cols-4 pl-3 md:pl-0 mt-5 md:place-items-center">
-                {
-                    products.map((data)=>{
-                        return(
-                              
-                                  <Link href={`/product/${data._id}`} key={data._id} >
-                                 <div className="w-[160px] h-[160px] md:w-[290px] mt-5 md:mt-0 md:h-[290px] bg-[#F0EEED] rounded-[20px]">
-                                  <Image src={data.imageUrl} alt={data.name}
-                                  className="w-full h-full rounded-[20px]"
-                                 width={500} height={500}></Image>
-                                 
-                                  </div>
-                                  <div>
-                                <p className="text-lg mt-2 font-bold md:line-clamp-1 w-auto md:w-72" key={data._id}>{data.name}</p>
-                                {/* <p className="flex text-yellow-400" key={index}>{star}</p> */}
-                                <div className="flex text-yellow-400">
-                                 {/* Map stars correctly */}
-                                 {star.map((icon, index) => (
-                                   <span key={index}>{icon}</span>
-                                 ))}
-                               </div>
-                                <p  className="font-bold mt-1" key={data._id}>{data.price} <span className="text-gray-400 font-bold line-through"> {data.old_price} </span></p>
-                                </div>
-                                 </Link>
-                            
-                       
-                        )
-                    })
-                }
+  return (
+    <div className="w-full h-full mt-10 max-w-screen-2xl mx-auto px-4">
+      <h1 className="text-3xl md:text-4xl font-bold text-center mb-6 text-gray-900">
+        You Might Also Like
+      </h1>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 place-items-center">
+        {products.map((product) => (
+          <Link href={`/product/${product._id}`} key={product._id} className="group">
+            <div className="relative w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[260px] md:h-[260px] bg-gray-100 rounded-2xl overflow-hidden shadow-md transition-transform transform hover:scale-105">
+              <Image
+                src={product.imageUrl}
+                alt={product.name}
+                className="w-full h-full object-contain rounded-2xl"
+                width={500}
+                height={500}
+                priority
+              />
             </div>
-        </div>
-    )
+
+            <div className="mt-3 text-center">
+              <p className="text-lg font-semibold text-gray-800 truncate">{product.name}</p>
+
+              <div className="flex justify-center text-yellow-400 mt-1">
+                {[...Array(5)].map((_, index) => (
+                  <FaStar key={index} />
+                ))}
+              </div>
+
+              <p className="text-lg font-bold mt-1 text-gray-900">
+                ${product.price}
+                {product.old_price && (
+                  <span className="text-gray-500 font-medium line-through text-sm ml-2">
+                    ${product.old_price}
+                  </span>
+                )}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 }

@@ -5,22 +5,12 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FaStar } from "react-icons/fa";
-
 import { Product } from "@/types/products";
 
-
-
-
-const star = [
-  <FaStar key={1} />,
-  <FaStar key={2} />,
-  <FaStar key={3} />,
-  <FaStar key={4} />,
-  <FaStar key={5} />,
-];
+// Star Ratings
+const stars = Array(5).fill(<FaStar className="text-yellow-400" />);
 
 export default function Products() {
-
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -44,55 +34,40 @@ export default function Products() {
     fetchPro();
   }, []);
 
-
   return (
+    <div className="w-full max-w-screen-xl mx-auto mt-10">
+      <h1 className="text-3xl md:text-4xl font-bold text-center">NEW ARRIVALS</h1>
 
-    <>
-        <div className="w-full h-full  mt-10 max-w-screen-xl mx-auto">
-            <h1 className="text-3xl md:text-4xl font-bold text-center">NEW ARRIVALS</h1>
-            <div className="relative  mt-10 overflow-x-auto flex space-x-5 px-8 ">
-                {products.map((data) => {
-                    return (
-           <Link href={`/product/${data._id}`} key={data._id}>
-                            
-                                <div className="w-[200px] md:w-[283px] h-[200px] md:h-[290px] bg-[#F0EEED] rounded-[20px]">
-                                    <Image
-                                        src={data.imageUrl}
-                                        alt={data.name}
-                                        className="w-full h-full rounded-[20px]"
-                                        width={500}
-                                        height={500}
-                                    />
-                                    <h2 className="font-bold text-xl mt-1 ml-2 line-clamp-1">{data.name}</h2>
-                                </div>
-                                <div className="pl-2">
-                 
-                 <div className="flex text-yellow-400 mt-8 ">
-                     {star.map((icon, index) => (
-                         <span key={index}>{icon}</span>
-                     ))}
-                 </div>
-                 <p className="font-bold mt-1 ">
-                     ${data.price}
-                  
-                 </p>
-             </div>
-            
-                            </Link>
-                        
-               
-                          
-                        
-                    );
-                })}
+      {/* Horizontal Scroll Wrapper */}
+      <div className="relative mt-10 flex overflow-x-auto space-x-5 px-6 scrollbar-hide">
+        {products.map((data) => (
+          <Link href={`/product/${data._id}`} key={data._id} className="flex-shrink-0">
+            <div className="w-[200px] md:w-[280px] bg-[#F0EEED] rounded-xl overflow-hidden">
+              <Image
+                src={data.imageUrl}
+                alt={data.name}
+                className="w-full h-[200px] md:h-[280px] object-cover rounded-xl"
+                width={500}
+                height={500}
+              />
             </div>
-        </div>
-        <div className="flex justify-center items-start mt-5">
+            <div className="mt-2 px-2">
+              <h2 className="font-semibold text-lg line-clamp-1 w-60">{data.name}</h2>
+              <div className="flex mt-1">{stars}</div>
+              <p className="font-bold text-lg mt-1">${data.price}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* View All Button */}
+      <div className="flex justify-center mt-5">
         <Link href="/casual">
-        <Button variant={"outline"} className=" sm:mt-0 w-[80%]  sm:w-[200px] rounded-[20px]">View all</Button>
-        </Link> 
-        </div>
-        </>
+          <Button variant="outline" className="w-[80%] sm:w-[200px] rounded-xl">
+            View All
+          </Button>
+        </Link>
+      </div>
+    </div>
   );
 }
-
