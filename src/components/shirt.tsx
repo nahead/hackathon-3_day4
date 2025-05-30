@@ -113,7 +113,7 @@ export default function Shirt() {
             {filteredProducts.length > 0 ? (
               filteredProducts.map((data) => (
                 <Link href={`/product/${data._id}`} key={data._id} className="block group">
-                  <div className="relative w-full h-56 bg-gray-100 rounded-lg overflow-hidden">
+                  <div className="relative w-full h-56 bg-gray-100 hover:bg-slate-400 rounded-lg overflow-hidden">
                     <Image src={data.imageUrl} alt={data.name} layout="fill" objectFit="cover" className="group-hover:scale-105 transition duration-300" />
                   </div>
                   <div className="mt-2">

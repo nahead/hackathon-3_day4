@@ -39,7 +39,7 @@ export default function Hero() {
         {/* Transparent Background Image */}
         <Image 
           src="/profile.png"
-          className="w-[320px] sm:w-[400px] md:w-[500px] lg:w-[550px] h-auto rounded-xl object-contain drop-shadow-lg"
+          className="w-[320px] sm:w-[400px] md:w-[500px] lg:w-[550px] h-auto rounded-xl object-contain "
           width={550} height={650}
           alt="Hero Image"
         />

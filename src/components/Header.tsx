@@ -110,7 +110,7 @@ export default function Header() {
       {searchQuery && filteredProducts.length > 0 && (
         <div
           ref={searchResultsRef}
-          className="absolute bg-white w-full max-h-[300px] overflow-y-auto border border-gray-300 rounded-lg shadow-lg mt-2 z-10"
+          className="absolute bg-white w-[550px]  max-h-[300px] overflow-y-auto border border-gray-300 rounded-lg shadow-lg mt-6 z-10 "
         >
           <ul>
             {filteredProducts.map((product) => (
